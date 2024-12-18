@@ -50,6 +50,7 @@ func (e *Embedder) WithModel(model string) *Embedder {
 }
 
 // Embed returns the embeddings for the given texts
+// Embed返回embeddings，对于给定的texts
 func (e *Embedder) Embed(ctx context.Context, texts []string) ([]embedder.Embedding, error) {
 	observerEmbedding, err := embobserver.StartObserveEmbedding(
 		ctx,

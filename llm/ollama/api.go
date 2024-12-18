@@ -95,6 +95,7 @@ type message struct {
 
 type options struct {
 	Temperature float64 `json:"temperature"`
+	NumThreads  int     `json:"num_thread"`
 }
 
 func getImageDataAsBase64(imageURL string) (string, error) {

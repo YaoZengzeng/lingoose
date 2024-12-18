@@ -22,6 +22,7 @@ const (
 )
 
 type Content struct {
+	// Content类型
 	Type ContentType
 	Data any
 }
@@ -87,6 +88,7 @@ func (m *Message) AddContent(content *Content) *Message {
 
 func NewUserMessage() *Message {
 	return &Message{
+		// 添加Role
 		Role: RoleUser,
 	}
 }

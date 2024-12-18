@@ -31,6 +31,7 @@ type Result struct {
 
 func New(index *index.Index) *Cache {
 	return &Cache{
+		// 构建embedder
 		embedder:       index.Embedder(),
 		index:          index,
 		topK:           defaultTopK,
@@ -49,11 +50,13 @@ func (c *Cache) WithScoreThreshold(scoreThreshold float64) *Cache {
 }
 
 func (c *Cache) Get(ctx context.Context, query string) (*Result, error) {
+	// 获取embedding
 	embedding, err := c.embedder.Embed(ctx, []string{query})
 	if err != nil {
 		return nil, err
 	}
 
+	// 设置topK
 	results, err := c.index.Search(ctx, embedding[0], indexoption.WithTopK(c.topK))
 	if err != nil {
 		return nil, err
@@ -87,6 +90,7 @@ func (c *Cache) extractResults(results index.SearchResults) ([]string, bool) {
 	var output []string
 
 	for _, result := range results {
+		fmt.Printf("--- RESULT.SCORE is %v\n", result.Score)
 		if result.Score > c.scoreThreshold {
 			answer, ok := result.Metadata[cacheAnswerMetadataKey]
 			if !ok {

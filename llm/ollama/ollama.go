@@ -123,16 +123,21 @@ func (o *Ollama) Generate(ctx context.Context, t *thread.Thread) error {
 		return nil
 	}
 
+	fmt.Println("--- CALLING Ollama Generate")
+
 	var err error
 	var cacheResult *cache.Result
 	if o.cache != nil {
 		cacheResult, err = o.getCache(ctx, t)
 		if err == nil {
+			fmt.Printf("--- HIT CACHE!")
 			return nil
 		} else if !errors.Is(err, cache.ErrCacheMiss) {
 			return fmt.Errorf("%w: %w", ErrOllamaChat, err)
 		}
 	}
+
+	fmt.Printf("--- MESSAGES ARE %v\n", t)
 
 	chatRequest := o.buildChatCompletionRequest(t)
 
@@ -193,6 +198,7 @@ func (o *Ollama) stream(ctx context.Context, t *thread.Thread, chatRequest *requ
 	var assistantMessage string
 
 	resp.SetAcceptContentType(ndjsonContentType)
+	// 设置Stream的callback
 	resp.SetStreamCallback(
 		func(data []byte) error {
 			var streamResponse response[message]

@@ -10,6 +10,7 @@ func (o *Ollama) buildChatCompletionRequest(t *thread.Thread) *request {
 		Messages: threadToChatMessages(t),
 		Options: options{
 			Temperature: o.temperature,
+			NumThreads:  8,
 		},
 	}
 }

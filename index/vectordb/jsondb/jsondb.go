@@ -27,6 +27,7 @@ type data struct {
 // DB is a simple in-memory vector database
 // that stores the data in a json file only
 // if the persist option is enabled.
+// DB是一个简单的内存中的vector db，存储数据在一个json file中，如果使能了persiste option
 type DB struct {
 	data   []data
 	dbPath string
